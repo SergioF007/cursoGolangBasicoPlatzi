@@ -3,9 +3,13 @@ package main
 import (
 	// pk "curso_golang_platzi/src/mypackage"
 	"fmt"
+	"net/http"
+
 	// "log"
 	// "strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 type figuras2D interface {
@@ -305,6 +309,15 @@ func main() {
 		fmt.Println(myPC)
 
 	*/
+
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+		c.String(http.StatusOK, "Hola mundo")
+	})
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
 	myCudrado := cuadrado{base: 4}
 	myRectangulo := rectangulo{base: 4, altura: 2}
