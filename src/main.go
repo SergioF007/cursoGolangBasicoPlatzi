@@ -284,6 +284,8 @@ func main() {
 		for i, v := range m {
 			fmt.Println(i, v)
 		}
+		// usualmente no vamos a obtener el llave, valor en el mismo orden que fue ingresado ya que este proceso ocurre de forma concurrente.
+		// si me interes es que imprima en el mismo orden, se recomienda usar los Slice
 
 		// Encontrar un valor
 		value8, ok := m["Jose"]
@@ -332,9 +334,12 @@ func main() {
 	// channels
 	// le fefinimos 1 para indicarle que solo tiene un canal
 	// por lo que solo va ejecuatar una goroutines a la vez, por lo que la buena practica es idicarle la cantidad limite
-	c := make(chan string, 1)
 
-	fmt.Println("Hello")
+	//	Uso del make, tanto para crear Channels como maps.
+	c := make(chan string, 1)
+	//m := make(map[string]int)
+
+	say1("Hello")
 
 	go say("Bye", c)
 	// le indicamos la salida del canal meidando <-c
@@ -359,7 +364,7 @@ func validacionUser(name string, password int) bool {
 // Palidromo
 func isPalindromo(text string) {
 
-	text = strings.ToLower(text)
+	text = strings.ToLower(text) // paso todo el texto a miniscula
 	var textReverse string
 	// voy a escribir la palabra al reves
 	for i := len(text) - 1; i >= 0; i-- {
@@ -398,8 +403,13 @@ func calcular(f figuras2D) {
 	fmt.Println("Area: ", f.area())
 }
 
+func say1(text string) {
+
+	fmt.Println(text)
+}
+
 // channels
-// tambien puedo especificar que el parametro del canar va hacer
+// tambien puedo especificar que el parametro del canal va hacer
 // o de entrado o de salida, en este caso especificamos
 // que va hacer de entrado con chan<- a su lado derecho si fuera de salida seria <-chan
 func say(text string, c chan<- string) {
